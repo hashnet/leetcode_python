@@ -9,12 +9,27 @@ class TreeNode(object):
         return "TreeNode({})".format(self.val)
 
 
+def treeNodeToString(root):
+    if not root:
+        return "[]"
+    output = ""
+    queue = [root]
+    current = 0
+    while current != len(queue):
+        node = queue[current]
+        current = current + 1
+
+        if not node:
+            output += "null, "
+            continue
+
+        output += str(node.val) + ", "
+        queue.append(node.left)
+        queue.append(node.right)
+    return "[" + output[:-2] + "]"
+
+
 def stringToTreeNode(input):
-    """Decodes a string to tree.
-    
-    :type input: str
-    :rtype: TreeNode
-    """
     input = input.strip()
     input = input[1:-1]
     if not input:
@@ -48,18 +63,18 @@ def stringToTreeNode(input):
     return root
 
 
-def deserialize(string):
-    if string == '{}':
-        return None
-    nodes = [None if val == 'null' else TreeNode(int(val))
-             for val in string.strip('[]{}').split(',')]
-    kids = nodes[::-1]
-    root = kids.pop()
-    for node in nodes:
-        if node:
-            if kids: node.left  = kids.pop()
-            if kids: node.right = kids.pop()
-    return root
+def prettyPrintTree(node, prefix="", isLeft=True):
+    if not node:
+        print("Empty Tree")
+        return
+
+    if node.right:
+        prettyPrintTree(node.right, prefix + ("│   " if isLeft else "    "), False)
+
+    print(prefix + ("└── " if isLeft else "┌── ") + str(node.val))
+
+    if node.left:
+        prettyPrintTree(node.left, prefix + ("    " if isLeft else "│   "), True)
 
 
 def drawtree(root):
@@ -91,5 +106,6 @@ def drawtree(root):
 
 
 if __name__ == "__main__":
-    # drawtree(stringToTreeNode("[1,2,3,null,null,4,null,null,5]"))
+    print(treeNodeToString(stringToTreeNode("[1,2,3,null,null,4,null,null,5]")))
+    prettyPrintTree(stringToTreeNode("[1,2,3,null,null,4,null,null,5]")) 
     drawtree(stringToTreeNode("[2,1,3,0,7,9,1,2,null,1,0,null,null,8,8,null,null,null,null,7]"))
