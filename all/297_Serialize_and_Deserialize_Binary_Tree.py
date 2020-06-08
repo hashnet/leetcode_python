@@ -1,7 +1,7 @@
 import sys
-sys.path.append("/Users/maidul/Python_Projects/leetcode_python/utility")
+sys.path.append(".")
 
-from TreeUtility import *
+from utility.TreeUtility import *
 
 class Codec:
 
@@ -40,4 +40,4 @@ class Codec:
         
 if __name__ == "__main__":
     codec = Codec()
-    drawtree(codec.deserialize(codec.serialize(stringToTreeNode("[1,2,3,null,null,4,5]"))))
+    prettyPrintTree(codec.deserialize(codec.serialize(stringToTreeNode("[1,2,3,null,null,4,5]"))))
